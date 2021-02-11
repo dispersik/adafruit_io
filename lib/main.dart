@@ -39,12 +39,8 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(onPressed: () {
-
-            }, child: Text('send')),
-            ElevatedButton(onPressed: () {
-              
-            }, child: Text('get'))
+            ElevatedButton(onPressed: ()=> helper.sendData('42'), child: Text('send')),
+            ElevatedButton(onPressed: ()=> helper.getData('1337'), child: Text('get'))
           ],
         ),
       ),
