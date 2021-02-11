@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:adafruit_io/adafruit_io_helper/adafruit_io_helper.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(AdafruitIOHelperApp());
@@ -29,6 +32,19 @@ class _HomePageState extends State<HomePage> {
     username: 'user', aioKey: 'key'
   );
 
+  _getLastData() async {
+    var username = 'maxworm';
+    var feedKey = 'test';
+    var aioKey = 'aio_GERM39No0g96dvkoRPlEhPVwi050';
+
+    var url = 'https://io.adafruit.com/api/v2/$username/feeds/$feedKey/data/last';
+    var response = await http.get(url, headers: {'X-AIO-Key': aioKey});
+    var content = jsonDecode(response.body);
+    var type = content.runtimeType;
+    print('response type is $type\nresponse content:\n$content');
+    print(content is Map<String, dynamic>);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(onPressed: ()=> helper.sendData('42'), child: Text('send')),
-            ElevatedButton(onPressed: ()=> helper.getData('1337'), child: Text('get'))
+            ElevatedButton(onPressed: ()=> _getLastData(), child: Text('get'))
           ],
         ),
       ),

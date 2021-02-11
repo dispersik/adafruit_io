@@ -37,5 +37,14 @@ class AdafruitIOHelper implements AdafruitIOAPI {
       throw UnimplementedError("getData isn't implemented for that protocol");
     }
   }
+
+  Future<Map<String, dynamic>> getLastData(Map<String,String> value) {
+    if (_apiProtocol==httpProtocol) {
+      final helper = HTTPAdafruitIOHelper();
+      return helper.getLastData(value);
+    } else {
+      throw UnimplementedError("getLastData isn't implemented for that protocol");
+    }
+  }
 }
 
