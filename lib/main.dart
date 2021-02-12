@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:adafruit_io/adafruit_io_helper/adafruit_io_helper.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(AdafruitIOHelperApp());
@@ -26,8 +27,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final AdafruitIOHelper helper = AdafruitIOHelper(
-    username: 'user', aioKey: 'key'
+      username: 'user',
+      aioKey: 'key',
+      feed: 'test'
   );
+
+  _getSomeData() async {
+    var temp = await helper.getFeedData();
+    var tempType = temp.runtimeType;
+    print('Type: $tempType\nValue:\n$temp');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +48,8 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(onPressed: () {
-
-            }, child: Text('send')),
-            ElevatedButton(onPressed: () {
-              
-            }, child: Text('get'))
+            ElevatedButton(onPressed: () => {}, child: Text('send')),
+            ElevatedButton(onPressed: () => _getSomeData(), child: Text('get'))
           ],
         ),
       ),
