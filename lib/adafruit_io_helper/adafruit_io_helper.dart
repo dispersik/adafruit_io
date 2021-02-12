@@ -13,37 +13,38 @@ class AdafruitIOHelper {
   final String aioKey;
   String feed;
   String _apiProtocol;
-  
-  Map<String, String> get _userData => {
-    'username': username,
-    'aioKey': aioKey,
-    'feed': feed
-  };
+
+  Map<String, String> get _userData =>
+      {'username': username, 'aioKey': aioKey, 'feed': feed};
 
   static const String httpProtocol = 'http';
   static const String mqttProtocol = 'mqtt';
 
   set apiProtocol(String value) {
-    if (value==httpProtocol) _apiProtocol = httpProtocol;
-    else throw UnimplementedError("AdafruitIOHelper isn't implemented for that protocol");
+    if (value == httpProtocol)
+      _apiProtocol = httpProtocol;
+    else
+      throw UnimplementedError(
+          "AdafruitIOHelper isn't implemented for that protocol");
   }
 
   Future<Map<String, dynamic>> getLastData() {
-    if (_apiProtocol==httpProtocol) {
+    if (_apiProtocol == httpProtocol) {
       final helper = HTTPAdafruitIOHelper();
       return helper.getLastData(_userData);
     } else {
-      throw UnimplementedError("getLastData isn't implemented for that protocol");
+      throw UnimplementedError(
+          "getLastData isn't implemented for that protocol");
     }
   }
 
-  Future<Map<String, dynamic>> getFeedData() {
-    if (_apiProtocol==httpProtocol) {
+  Future<List<Map<String, dynamic>>> getFeedData() {
+    if (_apiProtocol == httpProtocol) {
       final helper = HTTPAdafruitIOHelper();
       return helper.getFeedData(_userData);
     } else {
-      throw UnimplementedError("This method isn't implemented for that protocol");
+      throw UnimplementedError(
+          "This method isn't implemented for that protocol");
     }
   }
 }
-

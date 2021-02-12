@@ -10,7 +10,7 @@ class HTTPAdafruitIOHelper implements AdafruitIOAPI {
     var username = userData['username'];
     var feed = userData['feed'];
     var aioKey = userData['aioKey'];
-    var route = _apiURI+'/$username/feeds/$feed/data/last';
+    var route = _apiURI + '/$username/feeds/$feed/data/last';
 
     var response = await http.get(route, headers: {'X-AIO-Key': aioKey});
     if (response.statusCode == 200) {
@@ -21,15 +21,21 @@ class HTTPAdafruitIOHelper implements AdafruitIOAPI {
     }
   }
 
-  Future<Map<String, dynamic>> getFeedData(Map<String, String> userData) async {
+  Future<List<Map<String, dynamic>>> getFeedData(
+      Map<String, String> userData) async {
     var username = userData['username'];
     var feed = userData['feed'];
     var aioKey = userData['aioKey'];
-    var route = _apiURI+'/$username/feeds/$feed/data';
+    var route = _apiURI + '/$username/feeds/$feed/data';
 
     var response = await http.get(route, headers: {'X-AIO-Key': aioKey});
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      List<dynamic> list = jsonDecode(response.body);
+      var result = List<Map<String, dynamic>>();
+
+      list.forEach((element) => result.add(element));
+      list.clear();
+      return result;
     } else {
       throw Exception("Failed to obtain data\nResponse code: " +
           response.statusCode.toString());

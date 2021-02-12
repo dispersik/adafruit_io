@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:adafruit_io/adafruit_io_helper/adafruit_io_helper.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +33,9 @@ class _HomePageState extends State<HomePage> {
   );
 
   _getSomeData() async {
-    print(await helper.getFeedData());
+    var temp = await helper.getFeedData();
+    var tempType = temp.runtimeType;
+    print('Type: $tempType\nValue:\n$temp');
   }
 
   @override
