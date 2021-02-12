@@ -47,4 +47,14 @@ class AdafruitIOHelper {
           "This method isn't implemented for that protocol");
     }
   }
+
+  Future createData(AdafruitIOData data) {
+    if (_apiProtocol == httpProtocol) {
+      final helper = HTTPAdafruitIOHelper();
+      return helper.createData(_userData, data);
+    } else {
+      throw UnimplementedError(
+          "This method isn't implemented for that protocol");
+    }
+  }
 }

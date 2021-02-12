@@ -41,4 +41,26 @@ class HTTPAdafruitIOHelper implements AdafruitIOAPI {
           response.statusCode.toString());
     }
   }
+
+  Future createData(
+      Map<String, String> userData, AdafruitIOData data) async {
+    var username = userData['username'];
+    var feed = userData['feed'];
+    var aioKey = userData['aioKey'];
+    var route = _apiURI + '/$username/feeds/$feed/data';
+
+    var response = await http.post(
+      route,
+      headers: {
+        'X-AIO-Key': aioKey, /* 'Content-Type': 'application/json'*/
+      },
+      body: data.toExportableMap(),
+    );
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception("Failed to send data\nResponse code: " +
+          response.statusCode.toString());
+    }
+  }
 }
