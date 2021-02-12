@@ -29,20 +29,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final AdafruitIOHelper helper = AdafruitIOHelper(
-    username: 'user', aioKey: 'key'
+      username: 'user',
+      aioKey: 'key',
+      feed: 'test'
   );
 
-  _getLastData() async {
-    var username = 'maxworm';
-    var feedKey = 'test';
-    var aioKey = 'aio_GERM39No0g96dvkoRPlEhPVwi050';
-
-    var url = 'https://io.adafruit.com/api/v2/$username/feeds/$feedKey/data/last';
-    var response = await http.get(url, headers: {'X-AIO-Key': aioKey});
-    var content = jsonDecode(response.body);
-    var type = content.runtimeType;
-    print('response type is $type\nresponse content:\n$content');
-    print(content is Map<String, dynamic>);
+  _getSomeData() async {
+    print(await helper.getFeedData());
   }
 
   @override
@@ -55,8 +48,8 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(onPressed: ()=> helper.sendData('42'), child: Text('send')),
-            ElevatedButton(onPressed: ()=> _getLastData(), child: Text('get'))
+            ElevatedButton(onPressed: () => {}, child: Text('send')),
+            ElevatedButton(onPressed: () => _getSomeData(), child: Text('get'))
           ],
         ),
       ),

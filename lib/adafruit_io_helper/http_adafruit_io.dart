@@ -4,17 +4,35 @@ import 'package:http/http.dart' as http;
 import 'package:adafruit_io/adafruit_io_helper/adafruit_io_api.dart';
 
 class HTTPAdafruitIOHelper implements AdafruitIOAPI {
-  // dummy func's
-  void sendData(value) => print("http send $value");
-  String getData(value) {print('http get $value'); return 'http get value';}
+  static const String _apiURI = 'https://io.adafruit.com/api/v2';
 
   Future<Map<String, dynamic>> getLastData(Map<String, String> userData) async {
-    var username = userData['user'];
-    var feedKey = userData['feedKey'];
+    var username = userData['username'];
+    var feed = userData['feed'];
     var aioKey = userData['aioKey'];
+    var route = _apiURI+'/$username/feeds/$feed/data/last';
 
-    var url = 'https://io.adafruit.com/api/v2/$username/feeds/$feedKey/data/last';
-    var response = await http.get(url, headers: {'X-AIO-Key': aioKey});
-    return jsonDecode(response.body);
+    var response = await http.get(route, headers: {'X-AIO-Key': aioKey});
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to obtain data\nResponse code: " +
+          response.statusCode.toString());
+    }
   }
-}   
+
+  Future<Map<String, dynamic>> getFeedData(Map<String, String> userData) async {
+    var username = userData['username'];
+    var feed = userData['feed'];
+    var aioKey = userData['aioKey'];
+    var route = _apiURI+'/$username/feeds/$feed/data';
+
+    var response = await http.get(route, headers: {'X-AIO-Key': aioKey});
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Failed to obtain data\nResponse code: " +
+          response.statusCode.toString());
+    }
+  }
+}
